@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.api.backend.common.CommonRes;
 import com.api.backend.common.CommonResCode;
 import com.api.backend.entity.Test;
+import com.api.backend.entity.TestAddressDetail;
 import com.api.backend.exception.TestException;
+import com.api.backend.repository.TestAddressDetailRepository;
 import com.api.backend.repository.TestRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
@@ -27,26 +30,23 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class TestController {
     
+    private final ObjectMapper objectMapper;
     private final TestRepository testRepository;
+    private final TestAddressDetailRepository testAddressDetailRepository;
 
     @PostMapping("ping")
     public ResponseEntity<CommonRes> ping(@RequestBody HashMap<String, Object> req) throws Exception {
-        List<Map<String, Object>> test = testRepository.findForTest(1L);
-        Test testUnique = testRepository.findById(5L).get();
+        List<TestAddressDetail> listTAD = testAddressDetailRepository.findByMbId("TEST00");
 
-        log.info("data: {}", testUnique);
-        log.info("data: {}", test);
-
-        Map<String, Object> payload = new HashMap<>();
+        log.info("data: {}", listTAD);
         
-        payload.put("test", test);
-        payload.put("testUnique", testUnique);
+        //payload.put("test", listTAD);
         
-        if(testUnique == null)
+        if(listTAD == null)
             throw new TestException("테스트 예외 발생!");
         else 
             return ResponseEntity.ok()
-                .body(CommonRes.withPayload(CommonResCode.SUCCESS, payload));
+                .body(CommonRes.withPayload(CommonResCode.SUCCESS, listTAD));
     }
 
     // 컨트롤러 개별 예외처리는 이렇게 한다
