@@ -1,6 +1,9 @@
 package com.api.backend.controller;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +20,7 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+
 @Slf4j
 @RestController
 @RequestMapping("/test")
@@ -27,14 +31,22 @@ public class TestController {
 
     @PostMapping("ping")
     public ResponseEntity<CommonRes> ping(@RequestBody HashMap<String, Object> req) throws Exception {
-        Test test = testRepository.findById(1L).get();
+        List<Map<String, Object>> test = testRepository.findForTest(1L);
+        Test testUnique = testRepository.findById(5L).get();
+
+        log.info("data: {}", testUnique);
         log.info("data: {}", test);
+
+        Map<String, Object> payload = new HashMap<>();
         
-        if(test.getMbId() == null)
+        payload.put("test", test);
+        payload.put("testUnique", testUnique);
+        
+        if(testUnique == null)
             throw new TestException("테스트 예외 발생!");
         else 
             return ResponseEntity.ok()
-                .body(CommonRes.withPayload(CommonResCode.SUCCESS, test));
+                .body(CommonRes.withPayload(CommonResCode.SUCCESS, payload));
     }
 
     // 컨트롤러 개별 예외처리는 이렇게 한다

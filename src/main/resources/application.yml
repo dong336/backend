@@ -6,10 +6,14 @@ spring:
     username: vuepring
     password: vuepring
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      connection-timeout: 30000
+      maximum-pool-size: 10
   jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: none # 수정시 주의
+    properties:
+      hibernate:
+        show-sql: true
+        ddl-auto: none # 수정시 주의
 
 springdoc:
   packages-to-scan: com.api.backend

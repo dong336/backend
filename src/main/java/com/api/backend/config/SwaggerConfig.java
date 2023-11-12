@@ -10,12 +10,13 @@ import io.swagger.v3.oas.models.info.Info;
 @Configuration
 public class SwaggerConfig {
 
-	@Bean
-	public OpenAPI openAPI() {
+    @Bean
+    public OpenAPI openAPI() {
         Info info = new Info()
                 .title("Spring API Document")
                 .version("v1.0.0")
                 .description("백엔드 API 명세서입니다.");
+
         return new OpenAPI()
                 .components(new Components())
                 .info(info);
