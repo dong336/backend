@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -20,7 +19,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "test")
-@Getter @Setter @Builder @NoArgsConstructor @AllArgsConstructor
+@Setter
+@Getter
+@Builder
+@NoArgsConstructor 
+@AllArgsConstructor
 public class Test {
    
     @Id

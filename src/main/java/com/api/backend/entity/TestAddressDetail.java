@@ -18,7 +18,11 @@ import lombok.Setter;
 
 @Entity
 @Table(name="test_address_detail")
-@Getter @Setter @Builder @NoArgsConstructor @AllArgsConstructor
+@Setter
+@Getter
+@Builder
+@NoArgsConstructor 
+@AllArgsConstructor
 public class TestAddressDetail {
 
     @Id

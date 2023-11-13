@@ -13,7 +13,16 @@ spring:
     properties:
       hibernate:
         show-sql: true
+        format_sql: true
         ddl-auto: none # 수정시 주의
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug
+        type: 
+          descriptor.sql.BasicBinder: trace
 
 springdoc:
   packages-to-scan: com.api.backend

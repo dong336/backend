@@ -1,7 +1,6 @@
 package com.api.backend.controller;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -12,17 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.api.backend.common.CommonRes;
 import com.api.backend.common.CommonResCode;
-import com.api.backend.entity.Test;
 import com.api.backend.entity.TestAddressDetail;
 import com.api.backend.exception.TestException;
 import com.api.backend.repository.TestAddressDetailRepository;
 import com.api.backend.repository.TestRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 
 @Slf4j
 @RestController
@@ -30,23 +26,28 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class TestController {
     
-    private final ObjectMapper objectMapper;
     private final TestRepository testRepository;
     private final TestAddressDetailRepository testAddressDetailRepository;
 
     @PostMapping("ping")
     public ResponseEntity<CommonRes> ping(@RequestBody HashMap<String, Object> req) throws Exception {
         List<TestAddressDetail> listTAD = testAddressDetailRepository.findByMbId("TEST00");
-
+        // List<Test> test = testRepository.findByMbPw("23213");
+        // List<Map<String, Object>> rest = testRepository.findForTest(1L);
         log.info("data: {}", listTAD);
+        // log.info("data: {}", test);
+        // log.info("data: {}", rest);
         
-        //payload.put("test", listTAD);
+        var payload = new HashMap<String, Object>();
+        payload.put("listTAD", listTAD);
+        // payload.put("test", test);
+        // payload.put("rest", rest);
         
         if(listTAD == null)
             throw new TestException("테스트 예외 발생!");
         else 
             return ResponseEntity.ok()
-                .body(CommonRes.withPayload(CommonResCode.SUCCESS, listTAD));
+                .body(CommonRes.withPayload(CommonResCode.SUCCESS, payload));
     }
 
     // 컨트롤러 개별 예외처리는 이렇게 한다
