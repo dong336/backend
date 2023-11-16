@@ -7,34 +7,26 @@ import java.util.Arrays;
 import javax.sql.DataSource;
 
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
-import org.springframework.core.io.support.ResourcePatternUtils;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 
-import com.querydsl.jpa.impl.JPAQueryFactory;
-
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 
 @Configuration
 @RequiredArgsConstructor
 public class JpaConfig {
 
-    private final ApplicationContext applicationContext;
-    private final EntityManager entityManager;
-    
-    @Bean
-    public JPAQueryFactory jpaQueryFactory() {
-        return new JPAQueryFactory(entityManager);
-    } 
+    // private final ApplicationContext applicationContext;
 
     @Bean
     public ResourcePatternResolver resourcePatternResolver() {
-        return ResourcePatternUtils.getResourcePatternResolver(applicationContext);
+        // 테스트시 무한재귀호출, 불필요한 의존성 삭제
+        // return ResourcePatternUtils.getResourcePatternResolver(applicationContext);
+        return new PathMatchingResourcePatternResolver();
     }
 
     @Bean
@@ -70,5 +62,4 @@ public class JpaConfig {
             throw new RuntimeException("Error while getting URL from resource", e);
         }
     }
-
 }

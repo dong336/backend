@@ -14,7 +14,6 @@ import com.api.backend.common.CommonResCode;
 import com.api.backend.entity.TestAddressDetail;
 import com.api.backend.exception.TestException;
 import com.api.backend.repository.TestAddressDetailRepository;
-import com.api.backend.repository.TestRepository;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
@@ -26,22 +25,16 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class TestController {
     
-    private final TestRepository testRepository;
+    // private final TestRepository testRepository;
     private final TestAddressDetailRepository testAddressDetailRepository;
 
     @PostMapping("ping")
     public ResponseEntity<CommonRes> ping(@RequestBody HashMap<String, Object> req) throws Exception {
         List<TestAddressDetail> listTAD = testAddressDetailRepository.findByMbId("TEST00");
-        // List<Test> test = testRepository.findByMbPw("23213");
-        // List<Map<String, Object>> rest = testRepository.findForTest(1L);
         log.info("data: {}", listTAD);
-        // log.info("data: {}", test);
-        // log.info("data: {}", rest);
         
         var payload = new HashMap<String, Object>();
         payload.put("listTAD", listTAD);
-        // payload.put("test", test);
-        // payload.put("rest", rest);
         
         if(listTAD == null)
             throw new TestException("테스트 예외 발생!");

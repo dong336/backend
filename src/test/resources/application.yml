@@ -1,0 +1,41 @@
+server.port: 8080
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/vuepring
+    username: vuepring
+    password: vuepring
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      connection-timeout: 30000
+      maximum-pool-size: 10
+  jpa:
+    properties:
+      hibernate:
+        show-sql: true
+        format_sql: true
+        ddl-auto: none # 수정시 주의
+  #autoconfigure.exclude: com.api.backend.config.JpaConfig
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug
+        type: 
+          descriptor.sql.BasicBinder: trace
+
+springdoc:
+  packages-to-scan: com.api.backend
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /api-docs/json
+    groups:
+      enabled: true
+  cache:
+    disabled: true
