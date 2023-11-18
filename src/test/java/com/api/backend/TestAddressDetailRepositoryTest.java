@@ -10,12 +10,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.api.backend.entity.TestAddressDetail;
 import com.api.backend.repository.TestAddressDetailRepository;
+import com.api.backend.repository.TestRepository;
 
 @SpringBootTest
 public class TestAddressDetailRepositoryTest {
 
     @Autowired
     TestAddressDetailRepository testAddressDetailRepository;
+    @Autowired
+    TestRepository testRepository;
 
     @Test
     void testFindByMbId() {
@@ -26,5 +29,14 @@ public class TestAddressDetailRepositoryTest {
         //then
         assertEquals(3, details.size());
         assertEquals(1L, details.get(0).getId());
+    }
+
+    @Test
+    void testBuilder() {
+        var test = com.api.backend.entity.Test.builder()
+            .address("안녕?")
+            .build(); 
+        
+        testRepository.save(test);
     }
 }

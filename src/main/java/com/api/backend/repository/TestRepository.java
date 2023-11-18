@@ -1,22 +1,32 @@
 package com.api.backend.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import com.api.backend.entity.Test;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+
+import jakarta.persistence.EntityManager;
+import lombok.RequiredArgsConstructor;
+
 import java.util.List;
-import java.util.Map;
 
-public interface TestRepository extends JpaRepository<Test, Long>{
+@Repository
+@RequiredArgsConstructor
+public class TestRepository {
     
-  @Query(value = """
-    select t
-    from Test t
-    where mbPw = :mbPw
-    """)
-  List<Test> findByMbPw(@Param(value = "mbPw") String mbPw);
+    private final EntityManager em;
+    private final JPAQueryFactory query;
 
-  @Query(name = "Test.findForTest", nativeQuery = true)
-  List<Map<String, Object>> findForTest(@Param(value = "id") Long id);
+    public void save(Test test) {
+        em.persist(test);
+    }
+
+    public Test findOne(Long id) {
+        return em.find(Test.class, id);
+    }
+
+    public List<Test> findByAddress(String address) {
+        //return em.find
+        return null;
+    }
 }
